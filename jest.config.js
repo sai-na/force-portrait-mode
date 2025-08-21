@@ -37,9 +37,12 @@ module.exports = {
   setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   
   // Module mapping
-  moduleNameMapping: {
+  moduleNameMapper: {
     '^@/(.*)$': '<rootDir>/src/$1'
   },
+  
+  // Allow no tests during development
+  passWithNoTests: true,
   
   // Transform configuration
   transform: {

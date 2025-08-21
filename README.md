@@ -1,8 +1,8 @@
 # force-portrait-mode
 
 [![npm version](https://badge.fury.io/js/force-portrait-mode.svg)](https://www.npmjs.com/package/force-portrait-mode)
-[![Build Status](https://github.com/username/force-portrait-mode/workflows/CI/badge.svg)](https://github.com/username/force-portrait-mode/actions)
-[![Coverage Status](https://codecov.io/gh/username/force-portrait-mode/branch/main/graph/badge.svg)](https://codecov.io/gh/username/force-portrait-mode)
+[![Build Status](https://github.com/sai-na/force-portrait-mode/workflows/CI/badge.svg)](https://github.com/sai-na/force-portrait-mode/actions)
+[![Coverage Status](https://codecov.io/gh/sai-na/force-portrait-mode/branch/main/graph/badge.svg)](https://codecov.io/gh/sai-na/force-portrait-mode)
 [![MIT License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 
@@ -389,7 +389,7 @@ We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) f
 ### Development Setup
 
 ```bash
-git clone https://github.com/username/force-portrait-mode.git
+git clone https://github.com/sai-na/force-portrait-mode.git
 cd force-portrait-mode
 npm install
 npm run dev
@@ -405,14 +405,14 @@ npm run test:coverage # With coverage
 
 ## 📄 License
 
-MIT © [Your Name](LICENSE)
+MIT © [SAI NATH](LICENSE)
 
 ---
 
 ## 🔗 Links
 
 - [npm package](https://www.npmjs.com/package/force-portrait-mode)
-- [GitHub repository](https://github.com/username/force-portrait-mode)
+- [GitHub repository](https://github.com/sai-na/force-portrait-mode)
 - [API Documentation](docs/API.md)
 - [Examples](examples/)
 - [Changelog](CHANGELOG.md)

@@ -8,6 +8,7 @@ const isProduction = process.env.NODE_ENV === 'production'
 
 // Base configuration
 const baseConfig = {
+  external: ['react', 'vue'],
   plugins: [
     resolve({
       browser: true,
@@ -76,6 +77,26 @@ const minifiedConfig = {
   ]
 }
 
+// React integration build
+const reactConfig = {
+  input: 'src/react/index.ts',
+  output: [
+    {
+      file: 'dist/react/index.js',
+      format: 'cjs',
+      exports: 'named',
+      sourcemap: true
+    },
+    {
+      file: 'dist/react/index.esm.js',
+      format: 'es',
+      exports: 'named',
+      sourcemap: true
+    }
+  ],
+  ...baseConfig
+}
+
 // TypeScript declaration files
 const dtsConfig = {
   input: 'dist/index.d.ts',
@@ -86,14 +107,24 @@ const dtsConfig = {
   plugins: [dts()]
 }
 
+// React TypeScript declarations
+const reactDtsConfig = {
+  input: 'dist/react/index.d.ts',
+  output: {
+    file: 'dist/react/index.d.ts',
+    format: 'es'
+  },
+  plugins: [dts()]
+}
+
 // Export configurations based on environment
-const configs = [mainConfig]
+const configs = [mainConfig, reactConfig]
 
 if (isProduction) {
   configs.push(minifiedConfig)
 }
 
 // Always include TypeScript declarations
-configs.push(dtsConfig)
+configs.push(dtsConfig, reactDtsConfig)
 
 export default configs

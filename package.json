@@ -14,16 +14,16 @@
     "vue",
     "typescript"
   ],
-  "author": "Your Name <email@example.com>",
+  "author": "SAI NATH <sai.nath@example.com>",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/username/force-portrait-mode.git"
+    "url": "https://github.com/sai-na/force-portrait-mode.git"
   },
   "bugs": {
-    "url": "https://github.com/username/force-portrait-mode/issues"
+    "url": "https://github.com/sai-na/force-portrait-mode/issues"
   },
-  "homepage": "https://github.com/username/force-portrait-mode#readme",
+  "homepage": "https://github.com/sai-na/force-portrait-mode#readme",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
