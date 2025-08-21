@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Force Portrait Mode - JavaScript API Test</title>
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Oxanium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #2d3748 0%, #4a5568 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header {
+            padding: 40px 0;
+        }
+        
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 20px;
+        }
+        
+        h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+            margin-bottom: 40px;
+        }
+        
+        .test-section {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px 20px;
+            border-radius: 20px;
+            margin: 20px 0;
+            backdrop-filter: blur(10px);
+        }
+        
+        .test-title {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+            color: #ffd93d;
+        }
+        
+        .button {
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin: 5px;
+            display: inline-block;
+        }
+        
+        .button:hover {
+            background: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+        }
+        
+        .button.active {
+            background: rgba(255, 215, 0, 0.3);
+            border-color: rgba(255, 215, 0, 0.8);
+            color: #ffd93d;
+        }
+        
+        .status {
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid rgba(0, 255, 136, 0.5);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin: 10px 0;
+            font-size: 0.9rem;
+        }
+        
+        input::placeholder {
+            color: rgba(255, 255, 255, 0.6) !important;
+        }
+        
+        option {
+            background: #2d3748;
+            color: white;
+        }
+        
+    </style>
+</head>
+<body>
+    <div id="root" class="container">
+        <div class="header">
+            <div class="logo">⚡</div>
+            <h1>JavaScript API Test</h1>
+            <div class="subtitle">Testing force-portrait-mode TypeScript API</div>
+        </div>
+        
+        
+        <div class="test-section">
+            <div class="test-title">🎨 Quick Presets</div>
+            
+            <button class="button" onclick="testPreset('default')">Default</button>
+            <button class="button" onclick="testPreset('neon')">Neon Theme</button>
+            <button class="button" onclick="testPreset('bounce')">Bounce Animation</button>
+            <button class="button" onclick="testPreset('custom')">Custom Icon 🔄</button>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">⚙️ Custom Configuration</div>
+            
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 15px 0;">
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Background:</label>
+                    <select id="bgSelect" onchange="updateCustom()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+                        <option value="rgba(0, 0, 0, 0.9)">Dark</option>
+                        <option value="rgba(255, 255, 255, 0.9)">Light</option>
+                        <option value="rgba(220, 20, 60, 0.9)">Red</option>
+                        <option value="rgba(0, 100, 200, 0.9)">Blue</option>
+                        <option value="rgba(50, 200, 50, 0.9)">Green</option>
+                        <option value="rgba(150, 50, 200, 0.9)">Purple</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Text Color:</label>
+                    <select id="textSelect" onchange="updateCustom()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+                        <option value="#ffffff">White</option>
+                        <option value="#000000">Black</option>
+                        <option value="#ffff00">Yellow</option>
+                        <option value="#00ff88">Green</option>
+                        <option value="#ff0080">Pink</option>
+                        <option value="#ffd93d">Gold</option>
+                        <option value="#ff6b6b">Coral</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Icon:</label>
+                    <select id="iconSelect" onchange="updateCustom()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+                        <option value="📱">📱 Phone</option>
+                        <option value="📲">📲 Mobile</option>
+                        <option value="🔄">🔄 Rotate</option>
+                        <option value="↻">↻ Refresh</option>
+                        <option value="⚡">⚡ Lightning</option>
+                        <option value="🎯">🎯 Target</option>
+                        <option value="🎮">🎮 Game</option>
+                        <option value="📺">📺 Screen</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Animation:</label>
+                    <select id="animSelect" onchange="updateCustom()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+                        <option value="rotate">Rotate</option>
+                        <option value="bounce">Bounce</option>
+                        <option value="pulse">Pulse</option>
+                        <option value="shake">Shake</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Icon Position:</label>
+                    <select id="iconPosSelect" onchange="updateCustom()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+                        <option value="25%">High (25%)</option>
+                        <option value="30%">Upper (30%)</option>
+                        <option value="35%">Above Center (35%)</option>
+                        <option value="40%" selected>Default (40%)</option>
+                        <option value="45%">Below Center (45%)</option>
+                        <option value="50%">Middle (50%)</option>
+                        <option value="55%">Lower (55%)</option>
+                    </select>
+                </div>
+                
+                <div>
+                    <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Text Position:</label>
+                    <select id="textPosSelect" onchange="updateCustom()" style="width: 100%; padding: 8px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+                        <option value="60%">High (60%)</option>
+                        <option value="65%">Upper (65%)</option>
+                        <option value="70%" selected>Default (70%)</option>
+                        <option value="75%">Lower (75%)</option>
+                        <option value="80%">Low (80%)</option>
+                        <option value="85%">Bottom (85%)</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div style="margin: 15px 0;">
+                <label style="display: block; margin-bottom: 5px; font-size: 0.9rem;">Custom Message:</label>
+                <input type="text" id="messageInput" value="Please rotate your phone to portrait mode" placeholder="Please rotate your phone to portrait mode" onchange="updateCustom()" style="width: 100%; padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.3); background: rgba(255,255,255,0.1); color: white; font-size: 0.9rem;">
+            </div>
+            
+            <button class="button" onclick="applyCustomConfig()">🎨 Apply Custom Config</button>
+        </div>
+        
+        <div class="test-section">
+            <div class="test-title">📋 Copy Configuration</div>
+            
+            <button class="button" onclick="copyCurrentConfig()">📋 Copy Current Config</button>
+            <button class="button" onclick="copyAsJavaScript()">🔧 Copy as JavaScript</button>
+            <button class="button" onclick="copyAsCSS()">🎨 Copy as CSS</button>
+            
+            <div id="copy-output" style="font-family: monospace; font-size: 0.8rem; margin-top: 10px; padding: 10px; background: rgba(0,0,0,0.3); border-radius: 8px; display: none; text-align: left; max-height: 200px; overflow-y: auto;">
+                <!-- Copy output will appear here -->
+            </div>
+        </div>
+        
+    </div>
+    
+    <!-- Inline JavaScript API for testing -->
+    <script>
+        // Inline implementation of the core API for testing
+        // This simulates the actual library functionality
+        
+        let currentInstance = null;
+        
+        function enablePortraitMode(options = {}) {
+            console.log('enablePortraitMode called with options:', options);
+            
+            // Clean up existing instance first
+            if (currentInstance) {
+                currentInstance.cleanup();
+            }
+            
+            // Default options with 40%/70% positioning
+            const defaults = {
+                backgroundColor: 'rgba(0, 0, 0, 0.9)',
+                textColor: '#ffffff',
+                icon: '📱',
+                message: 'Please rotate your phone to portrait mode',
+                iconPosition: { top: '40%' },
+                textPosition: { top: '70%' },
+                animation: { enabled: true, type: 'rotate', duration: '2s' },
+                zIndex: 9999,
+                onShow: () => console.log('Portrait mode shown'),
+                onHide: () => console.log('Portrait mode hidden')
+            };
+            
+            const resolvedOptions = { ...defaults, ...options };
+            
+            // Apply theme if specified (theme should override custom options)
+            if (options.theme) {
+                const themes = {
+                    dark: { backgroundColor: 'rgba(0, 0, 0, 0.95)', textColor: '#ffffff', icon: '📱' },
+                    light: { backgroundColor: 'rgba(255, 255, 255, 0.95)', textColor: '#1a1a1a', icon: '📱' },
+                    neon: { backgroundColor: 'rgba(0, 0, 0, 0.9)', textColor: '#00ff88', icon: '📲' },
+                    minimal: { backgroundColor: 'rgba(128, 128, 128, 0.8)', textColor: '#333333', icon: '↻' }
+                };
+                Object.assign(resolvedOptions, themes[options.theme]);
+            }
+            
+            // Ensure iconPosition and textPosition are objects
+            if (!resolvedOptions.iconPosition || typeof resolvedOptions.iconPosition === 'string') {
+                resolvedOptions.iconPosition = { top: options.iconPosition || '40%' };
+            }
+            if (!resolvedOptions.textPosition || typeof resolvedOptions.textPosition === 'string') {
+                resolvedOptions.textPosition = { top: options.textPosition || '70%' };
+            }
+            
+            console.log('Resolved options:', resolvedOptions);
+            
+            // Generate CSS
+            const css = generateCSS(resolvedOptions);
+            console.log('Generated CSS:', css);
+            
+            // Remove existing style element
+            const existingStyle = document.getElementById('force-portrait-mode-test');
+            if (existingStyle) {
+                existingStyle.remove();
+            }
+            
+            // Inject CSS
+            const styleElement = document.createElement('style');
+            styleElement.id = 'force-portrait-mode-test';
+            styleElement.textContent = css;
+            document.head.appendChild(styleElement);
+            
+            // Set up orientation listener
+            const mediaQuery = window.matchMedia('(orientation: landscape)');
+            const handleChange = (mql) => {
+                if (mql.matches) {
+                    resolvedOptions.onShow();
+                } else {
+                    resolvedOptions.onHide();
+                }
+            };
+            
+            mediaQuery.addEventListener('change', handleChange);
+            handleChange(mediaQuery); // Initial call
+            
+            currentInstance = {
+                styleElement,
+                mediaQuery,
+                handleChange,
+                options: resolvedOptions,
+                cleanup: () => {
+                    styleElement.remove();
+                    mediaQuery.removeEventListener('change', handleChange);
+                    currentInstance = null;
+                }
+            };
+            
+            updateStatus();
+            return currentInstance;
+        }
+        
+        function disablePortraitMode() {
+            if (currentInstance) {
+                currentInstance.cleanup();
+                console.log('Portrait mode disabled');
+                updateStatus();
+            }
+        }
+        
+        function generateCSS(options) {
+            return `
+                @media screen and (orientation: landscape) {
+                    #root, #app, .app, main {
+                        display: none !important;
+                    }
+                    
+                    body::after {
+                        content: '';
+                        position: fixed;
+                        top: 0; left: 0;
+                        width: 100vw; height: 100vh;
+                        background: ${options.backgroundColor};
+                        z-index: ${options.zIndex};
+                        pointer-events: none;
+                    }
+                    
+                    body::before {
+                        content: '${options.icon}';
+                        position: fixed;
+                        top: ${options.iconPosition.top};
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        font-size: clamp(2rem, 8vw, 4rem);
+                        color: ${options.textColor};
+                        z-index: ${options.zIndex + 1};
+                        animation: portrait-${options.animation.type} ${options.animation.duration} infinite;
+                        pointer-events: none;
+                        user-select: none;
+                    }
+                    
+                    html::before {
+                        content: '${options.message}';
+                        position: fixed;
+                        top: ${options.textPosition.top};
+                        left: 50%;
+                        transform: translate(-50%, -50%);
+                        color: ${options.textColor};
+                        font-size: clamp(0.9rem, 4vw, 1.2rem);
+                        font-family: inherit;
+                        font-weight: 600;
+                        text-align: center;
+                        z-index: ${options.zIndex + 1};
+                        max-width: 90vw;
+                        line-height: 1.4;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                        pointer-events: none;
+                        user-select: none;
+                    }
+                }
+                
+                @keyframes portrait-rotate {
+                    0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+                    25% { transform: translate(-50%, -50%) rotate(-15deg); }
+                    75% { transform: translate(-50%, -50%) rotate(15deg); }
+                }
+                
+                @keyframes portrait-bounce {
+                    0%, 20%, 53%, 80%, 100% { transform: translate(-50%, -50%) translateY(0); }
+                    40%, 43% { transform: translate(-50%, -50%) translateY(-10px); }
+                    70% { transform: translate(-50%, -50%) translateY(-5px); }
+                }
+                
+                @keyframes portrait-pulse {
+                    0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+                    50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.8; }
+                }
+                
+                @keyframes portrait-shake {
+                    0%, 100% { transform: translate(-50%, -50%) translateX(0); }
+                    10%, 30%, 50%, 70%, 90% { transform: translate(-50%, -50%) translateX(-5px); }
+                    20%, 40%, 60%, 80% { transform: translate(-50%, -50%) translateX(5px); }
+                }
+            `;
+        }
+        
+        // Preset configurations - all with animations enabled
+        const presets = {
+            default: {
+                animation: { enabled: true, type: 'rotate', duration: '2s' },
+                message: 'Default 40%/70% positioning with rotation'
+            },
+            high: {
+                iconPosition: { top: '25%' },
+                textPosition: { top: '60%' },
+                animation: { enabled: true, type: 'rotate', duration: '2s' },
+                message: 'High position - Icon 25%, Text 60%'
+            },
+            low: {
+                iconPosition: { top: '50%' },
+                textPosition: { top: '85%' },
+                animation: { enabled: true, type: 'rotate', duration: '2s' },
+                message: 'Low position - Icon 50%, Text 85%'
+            },
+            red: {
+                backgroundColor: 'rgba(220, 20, 60, 0.95)',
+                textColor: '#ffff00',
+                icon: '📱',
+                animation: { enabled: true, type: 'rotate', duration: '2s' },
+                message: 'Red background with yellow text'
+            },
+            neon: {
+                backgroundColor: 'rgba(0, 0, 0, 0.95)',
+                textColor: '#00ff88',
+                icon: '📲',
+                animation: { enabled: true, type: 'pulse', duration: '1.5s' },
+                message: 'NEON THEME - Green text with pulse'
+            },
+            bounce: {
+                animation: { enabled: true, type: 'bounce', duration: '1.8s' },
+                message: 'Bounce animation test - up and down motion'
+            },
+            custom: {
+                icon: '🔄',
+                textColor: '#ffd93d',
+                animation: { enabled: true, type: 'rotate', duration: '1s' },
+                message: 'Fast rotation with custom icon'
+            }
+        };
+        
+        // Current active configuration
+        let currentConfig = {};
+        
+        // UI Functions
+        function testPreset(presetName) {
+            const options = presets[presetName] || {};
+            console.log(`Testing preset: ${presetName}`, options);
+            
+            currentConfig = { ...options, presetName };
+            enablePortraitMode(options);
+            
+        }
+        
+        // Custom configuration functions
+        function updateCustom() {
+            // Live preview as user changes options
+            const config = getCustomConfig();
+            console.log('Custom config updated:', config);
+        }
+        
+        function applyCustomConfig() {
+            const config = getCustomConfig();
+            console.log('Applying custom config:', config);
+            
+            currentConfig = { ...config, presetName: 'custom' };
+            enablePortraitMode(config);
+            
+            // Update status
+            const status = document.getElementById('api-status');
+            status.textContent = 'Status: custom configuration active';
+            status.style.background = 'rgba(0, 255, 136, 0.2)';
+            status.style.borderColor = 'rgba(0, 255, 136, 0.5)';
+            status.style.color = '#00ff88';
+        }
+        
+        function getCustomConfig() {
+            return {
+                backgroundColor: document.getElementById('bgSelect').value,
+                textColor: document.getElementById('textSelect').value,
+                icon: document.getElementById('iconSelect').value,
+                iconPosition: { top: document.getElementById('iconPosSelect').value },
+                textPosition: { top: document.getElementById('textPosSelect').value },
+                message: document.getElementById('messageInput').value || 'Please rotate your phone to portrait mode',
+                animation: {
+                    enabled: true,
+                    type: document.getElementById('animSelect').value,
+                    duration: '2s'
+                }
+            };
+        }
+        
+        // Format configuration to match npm package API
+        function formatAsNpmPackageOptions(config) {
+            const npmOptions = {};
+            
+            // Only include non-default values for cleaner output
+            if (config.backgroundColor && config.backgroundColor !== 'rgba(0, 0, 0, 0.9)') {
+                npmOptions.backgroundColor = config.backgroundColor;
+            }
+            if (config.textColor && config.textColor !== '#ffffff') {
+                npmOptions.textColor = config.textColor;
+            }
+            if (config.icon && config.icon !== '📱') {
+                npmOptions.icon = config.icon;
+            }
+            if (config.message && config.message !== 'Please rotate your phone to portrait mode') {
+                npmOptions.message = config.message;
+            }
+            
+            // Position objects
+            if (config.iconPosition && config.iconPosition.top !== '40%') {
+                npmOptions.iconPosition = { top: config.iconPosition.top };
+            }
+            if (config.textPosition && config.textPosition.top !== '70%') {
+                npmOptions.textPosition = { top: config.textPosition.top };
+            }
+            
+            // Animation (always include if different from default rotate)
+            if (config.animation && (config.animation.type !== 'rotate' || config.animation.duration !== '2s')) {
+                npmOptions.animation = {
+                    enabled: true,
+                    type: config.animation.type,
+                    duration: config.animation.duration
+                };
+            }
+            
+            // Theme shortcuts
+            if (config.presetName && config.presetName !== 'default' && config.presetName !== 'custom') {
+                npmOptions.theme = config.presetName;
+                // Remove individual properties if using theme
+                delete npmOptions.backgroundColor;
+                delete npmOptions.textColor;
+                delete npmOptions.icon;
+            }
+            
+            return npmOptions;
+        }
+        
+        // Copy functions
+        function copyCurrentConfig() {
+            const npmOptions = formatAsNpmPackageOptions(currentConfig);
+            const output = document.getElementById('copy-output');
+            
+            const configDisplay = Object.keys(npmOptions).length > 0 
+                ? JSON.stringify(npmOptions, null, 2)
+                : '// Using default configuration\n// No options needed - just call enablePortraitMode()';
+            
+            output.innerHTML = `<div style="margin-bottom: 10px;"><strong>NPM Package Options:</strong></div><pre>${configDisplay}</pre>`;
+            output.style.display = 'block';
+            
+            // Copy to clipboard
+            const copyText = Object.keys(npmOptions).length > 0 
+                ? JSON.stringify(npmOptions, null, 2)
+                : 'enablePortraitMode() // Default configuration';
+                
+            navigator.clipboard.writeText(copyText).then(() => {
+                console.log('NPM package options copied to clipboard');
+                showCopyFeedback('NPM package options copied!');
+            });
+        }
+        
+        function copyAsJavaScript() {
+            // Format as proper npm package options
+            const npmOptions = formatAsNpmPackageOptions(currentConfig);
+            const jsCode = `import { enablePortraitMode } from 'force-portrait-mode'
+
+// Enable with custom configuration
+enablePortraitMode(${JSON.stringify(npmOptions, null, 2)})
+
+// For cleanup when needed
+// const cleanup = enablePortraitMode(options)
+// cleanup() // Call this to disable`;
+            
+            const output = document.getElementById('copy-output');
+            output.innerHTML = `<div style="margin-bottom: 10px;"><strong>NPM Package Usage:</strong></div><pre>${jsCode}</pre>`;
+            output.style.display = 'block';
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(jsCode).then(() => {
+                console.log('NPM package code copied to clipboard');
+                showCopyFeedback('NPM package code copied to clipboard!');
+            });
+        }
+        
+        function copyAsCSS() {
+            const config = currentConfig;
+            
+            // Build CSS custom properties only for non-default values
+            let cssProperties = [];
+            
+            if (config.backgroundColor && config.backgroundColor !== 'rgba(0, 0, 0, 0.9)') {
+                cssProperties.push(`  --portrait-bg-color: ${config.backgroundColor};`);
+            }
+            if (config.textColor && config.textColor !== '#ffffff') {
+                cssProperties.push(`  --portrait-text-color: ${config.textColor};`);
+            }
+            if (config.icon && config.icon !== '📱') {
+                cssProperties.push(`  --portrait-icon: '${config.icon}';`);
+            }
+            if (config.message && config.message !== 'Please rotate your phone to portrait mode') {
+                cssProperties.push(`  --portrait-message: '${config.message}';`);
+            }
+            if (config.iconPosition?.top && config.iconPosition.top !== '40%') {
+                cssProperties.push(`  --portrait-icon-top: ${config.iconPosition.top};`);
+            }
+            if (config.textPosition?.top && config.textPosition.top !== '70%') {
+                cssProperties.push(`  --portrait-text-top: ${config.textPosition.top};`);
+            }
+            
+            const cssCode = cssProperties.length > 0 
+                ? `/* NPM Package: CSS-only approach */
+<link rel="stylesheet" href="https://unpkg.com/force-portrait-mode/styles/force-portrait.css">
+
+/* Custom configuration */
+:root {
+${cssProperties.join('\n')}
+}`
+                : `/* NPM Package: CSS-only approach with defaults */
+<link rel="stylesheet" href="https://unpkg.com/force-portrait-mode/styles/force-portrait.css">
+
+/* No custom properties needed - using default 40%/70% positioning */`;
+            
+            const output = document.getElementById('copy-output');
+            output.innerHTML = `<div style="margin-bottom: 10px;"><strong>NPM CSS Integration:</strong></div><pre>${cssCode}</pre>`;
+            output.style.display = 'block';
+            
+            // Copy to clipboard
+            navigator.clipboard.writeText(cssCode).then(() => {
+                console.log('NPM CSS integration copied to clipboard');
+                showCopyFeedback('NPM CSS code copied!');
+            });
+        }
+        
+        function showCopyFeedback(message) {
+            // Show temporary feedback
+            const status = document.getElementById('api-status');
+            const originalText = status.textContent;
+            const originalStyle = status.style.cssText;
+            
+            status.textContent = message;
+            status.style.background = 'rgba(0, 255, 136, 0.3)';
+            status.style.color = '#00ff88';
+            
+            setTimeout(() => {
+                status.textContent = originalText;
+                status.style.cssText = originalStyle;
+            }, 2000);
+        }
+        
+        // Auto-enable default preset on page load
+        function initializeDefaultPreset() {
+            setTimeout(() => {
+                // Apply the custom config with prefilled values instead of preset
+                applyCustomConfig();
+                console.log('Custom config with default values auto-applied - rotate to landscape to see overlay');
+            }, 500);
+        }
+        
+        
+        
+        
+        
+        // Initial setup
+        console.log('JavaScript API Test Page Loaded - Auto-enabling default preset');
+        console.log('Portrait mode always ready - just rotate to landscape!');
+        
+        // Auto-enable default preset
+        initializeDefaultPreset();
+    </script>
+</body>
+</html>

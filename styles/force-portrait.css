@@ -1,0 +1,214 @@
+/**
+ * Force Portrait Mode - CSS Only Implementation
+ * Enforces portrait orientation on mobile devices with 40%/70% positioning
+ * Version: 1.0.0
+ */
+
+/* CSS Custom Properties for easy customization */
+:root {
+  --portrait-bg-color: rgba(0, 0, 0, 0.9);
+  --portrait-text-color: #ffffff;
+  --portrait-icon-color: #ffffff;
+  --portrait-icon: '📱';
+  --portrait-message: 'Please rotate your phone to portrait mode';
+  --portrait-font-family: 'Oxanium', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --portrait-font-size: clamp(0.9rem, 4vw, 1.2rem);
+  --portrait-font-weight: 600;
+  --portrait-icon-size: clamp(2rem, 8vw, 4rem);
+  --portrait-icon-top: 40%;
+  --portrait-text-top: 70%;
+  --portrait-z-index: 9999;
+  --portrait-animation-duration: 2s;
+  --portrait-rotation-angle: 15deg;
+}
+
+/* Hide scrollbars in landscape mode */
+@media screen and (orientation: landscape) {
+  html {
+    overflow: hidden;
+  }
+  
+  body {
+    overflow: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+/* Main landscape orientation media query */
+@media screen and (orientation: landscape) {
+  
+  /* Hide main app content */
+  #root,
+  #app,
+  .app,
+  main,
+  [data-reactroot] {
+    display: none !important;
+  }
+  
+  /* No background overlay - just hide content */
+  
+  /* Phone icon */
+  body::before {
+    content: var(--portrait-icon);
+    position: fixed;
+    top: var(--portrait-icon-top);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: var(--portrait-icon-size);
+    color: var(--portrait-icon-color);
+    z-index: calc(var(--portrait-z-index) + 1);
+    animation: force-portrait-rotate var(--portrait-animation-duration) infinite ease-in-out;
+    text-align: center;
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+  }
+  
+  /* Message text - using a pseudo-element on html for better stacking */
+  html::before {
+    content: var(--portrait-message);
+    position: fixed;
+    top: var(--portrait-text-top);
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: var(--portrait-text-color);
+    font-size: var(--portrait-font-size);
+    font-family: var(--portrait-font-family);
+    font-weight: var(--portrait-font-weight);
+    text-align: center;
+    z-index: calc(var(--portrait-z-index) + 1);
+    max-width: 90vw;
+    line-height: 1.4;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    pointer-events: none;
+    user-select: none;
+  }
+}
+
+/* Rotation animation keyframes */
+@keyframes force-portrait-rotate {
+  0%, 100% {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  25% {
+    transform: translate(-50%, -50%) rotate(calc(-1 * var(--portrait-rotation-angle)));
+  }
+  75% {
+    transform: translate(-50%, -50%) rotate(var(--portrait-rotation-angle));
+  }
+}
+
+/* Alternative animations */
+@keyframes force-portrait-bounce {
+  0%, 20%, 53%, 80%, 100% {
+    transform: translate(-50%, -50%) translateY(0);
+  }
+  40%, 43% {
+    transform: translate(-50%, -50%) translateY(-10px);
+  }
+  70% {
+    transform: translate(-50%, -50%) translateY(-5px);
+  }
+  90% {
+    transform: translate(-50%, -50%) translateY(-2px);
+  }
+}
+
+@keyframes force-portrait-pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Responsive adjustments for very small screens */
+@media screen and (orientation: landscape) and (max-height: 400px) {
+  :root {
+    --portrait-icon-top: 30%;
+    --portrait-text-top: 65%;
+    --portrait-icon-size: clamp(1.5rem, 6vw, 2.5rem);
+    --portrait-font-size: clamp(0.8rem, 3vw, 1rem);
+  }
+}
+
+/* Adjustments for very wide screens */
+@media screen and (orientation: landscape) and (min-width: 1200px) {
+  :root {
+    --portrait-icon-size: 3rem;
+    --portrait-font-size: 1rem;
+  }
+  
+  html::before {
+    max-width: 600px;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  body::before {
+    animation: none;
+  }
+}
+
+/* Dark theme variant */
+.force-portrait-theme-dark {
+  --portrait-bg-color: rgba(0, 0, 0, 0.95);
+  --portrait-text-color: #ffffff;
+  --portrait-icon-color: #ffffff;
+}
+
+/* Light theme variant */
+.force-portrait-theme-light {
+  --portrait-bg-color: rgba(255, 255, 255, 0.95);
+  --portrait-text-color: #1a1a1a;
+  --portrait-icon-color: #1a1a1a;
+}
+
+/* Neon theme variant */
+.force-portrait-theme-neon {
+  --portrait-bg-color: rgba(0, 0, 0, 0.9);
+  --portrait-text-color: #00ff88;
+  --portrait-icon-color: #ff0080;
+  --portrait-icon: '📲';
+}
+
+/* Minimal theme variant */
+.force-portrait-theme-minimal {
+  --portrait-bg-color: rgba(128, 128, 128, 0.8);
+  --portrait-text-color: #333333;
+  --portrait-icon-color: #666666;
+  --portrait-icon: '↻';
+}
+
+/* Utility classes for custom positioning */
+.force-portrait-icon-high {
+  --portrait-icon-top: 30%;
+  --portrait-text-top: 65%;
+}
+
+.force-portrait-icon-low {
+  --portrait-icon-top: 50%;
+  --portrait-text-top: 80%;
+}
+
+/* Animation variants */
+.force-portrait-bounce body::before {
+  animation: force-portrait-bounce 1.5s infinite;
+}
+
+.force-portrait-pulse body::before {
+  animation: force-portrait-pulse 1s infinite;
+}
+
+.force-portrait-no-animation body::before {
+  animation: none;
+}

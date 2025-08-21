@@ -1,0 +1,114 @@
+{
+  "name": "force-portrait-mode",
+  "version": "1.0.0",
+  "description": "Lightweight library to enforce portrait orientation on mobile devices with customizable animations and messages",
+  "keywords": [
+    "portrait",
+    "mobile",
+    "orientation",
+    "responsive",
+    "landscape",
+    "device-rotation",
+    "mobile-first",
+    "react",
+    "vue",
+    "typescript"
+  ],
+  "author": "Your Name <email@example.com>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/force-portrait-mode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/username/force-portrait-mode/issues"
+  },
+  "homepage": "https://github.com/username/force-portrait-mode#readme",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.esm.js",
+      "require": "./dist/index.js"
+    },
+    "./react": {
+      "types": "./dist/react/index.d.ts",
+      "import": "./dist/react/index.esm.js",
+      "require": "./dist/react/index.js"
+    },
+    "./vue": {
+      "types": "./dist/vue/index.d.ts",
+      "import": "./dist/vue/index.esm.js",
+      "require": "./dist/vue/index.js"
+    },
+    "./styles/*": "./styles/*"
+  },
+  "files": [
+    "dist",
+    "styles",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "build": "rollup -c",
+    "build:watch": "rollup -c -w",
+    "dev": "npm run build:watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage",
+    "type-check": "tsc --noEmit",
+    "lint": "eslint src --ext .ts,.js",
+    "lint:fix": "eslint src --ext .ts,.js --fix",
+    "format": "prettier --write \"src/**/*.{ts,js,json}\"",
+    "format:check": "prettier --check \"src/**/*.{ts,js,json}\"",
+    "clean": "rimraf dist",
+    "prebuild": "npm run clean",
+    "prepublishOnly": "npm run build && npm test",
+    "semantic-release": "semantic-release"
+  },
+  "peerDependencies": {
+    "react": ">=16.8.0",
+    "vue": ">=3.0.0"
+  },
+  "peerDependenciesMeta": {
+    "react": {
+      "optional": true
+    },
+    "vue": {
+      "optional": true
+    }
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.0",
+    "@rollup/plugin-node-resolve": "^15.0.0",
+    "@rollup/plugin-typescript": "^11.0.0",
+    "@types/jest": "^29.5.0",
+    "@types/node": "^20.0.0",
+    "@types/react": "^18.0.0",
+    "@typescript-eslint/eslint-plugin": "^6.0.0",
+    "@typescript-eslint/parser": "^6.0.0",
+    "@vue/test-utils": "^2.4.0",
+    "eslint": "^8.45.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "jest": "^29.6.0",
+    "jest-environment-jsdom": "^29.6.0",
+    "prettier": "^3.0.0",
+    "react": "^18.0.0",
+    "rimraf": "^5.0.0",
+    "rollup": "^3.29.0",
+    "rollup-plugin-dts": "^6.0.0",
+    "semantic-release": "^21.0.0",
+    "ts-jest": "^29.1.0",
+    "typescript": "^5.9.2",
+    "vue": "^3.3.0"
+  },
+  "engines": {
+    "node": ">=16"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}
