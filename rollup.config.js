@@ -5,6 +5,7 @@ import terser from '@rollup/plugin-terser'
 import dts from 'rollup-plugin-dts'
 
 const isProduction = process.env.NODE_ENV === 'production'
+const generateSourceMaps = !isProduction
 
 // Base configuration
 const baseConfig = {
@@ -19,7 +20,8 @@ const baseConfig = {
       tsconfig: './tsconfig.json',
       declaration: true,
       declarationDir: './dist',
-      rootDir: './src'
+      rootDir: './src',
+      declarationMap: generateSourceMaps
     })
   ]
 }
@@ -32,20 +34,13 @@ const mainConfig = {
       file: 'dist/index.js',
       format: 'cjs',
       exports: 'named',
-      sourcemap: true
+      sourcemap: generateSourceMaps
     },
     {
       file: 'dist/index.esm.js',
       format: 'es',
       exports: 'named',
-      sourcemap: true
-    },
-    {
-      file: 'dist/index.umd.js',
-      format: 'umd',
-      name: 'ForcePortraitMode',
-      exports: 'named',
-      sourcemap: true
+      sourcemap: generateSourceMaps
     }
   ],
   ...baseConfig
@@ -60,7 +55,7 @@ const minifiedConfig = {
       format: 'umd',
       name: 'ForcePortraitMode',
       exports: 'named',
-      sourcemap: true
+      sourcemap: false
     }
   ],
   plugins: [
@@ -85,13 +80,33 @@ const reactConfig = {
       file: 'dist/react/index.js',
       format: 'cjs',
       exports: 'named',
-      sourcemap: true
+      sourcemap: generateSourceMaps
     },
     {
       file: 'dist/react/index.esm.js',
       format: 'es',
       exports: 'named',
-      sourcemap: true
+      sourcemap: generateSourceMaps
+    }
+  ],
+  ...baseConfig
+}
+
+// Vue integration build
+const vueConfig = {
+  input: 'src/vue/index.ts',
+  output: [
+    {
+      file: 'dist/vue/index.js',
+      format: 'cjs',
+      exports: 'named',
+      sourcemap: generateSourceMaps
+    },
+    {
+      file: 'dist/vue/index.esm.js',
+      format: 'es',
+      exports: 'named',
+      sourcemap: generateSourceMaps
     }
   ],
   ...baseConfig
@@ -117,14 +132,46 @@ const reactDtsConfig = {
   plugins: [dts()]
 }
 
-// Export configurations based on environment
-const configs = [mainConfig, reactConfig]
-
-if (isProduction) {
-  configs.push(minifiedConfig)
+// Vue TypeScript declarations
+const vueDtsConfig = {
+  input: 'dist/vue/index.d.ts',
+  output: {
+    file: 'dist/vue/index.d.ts',
+    format: 'es'
+  },
+  plugins: [dts()]
 }
 
-// Always include TypeScript declarations
-configs.push(dtsConfig, reactDtsConfig)
+// Export configurations based on environment  
+const configs = [mainConfig, reactConfig, vueConfig]
+
+if (isProduction) {
+  // Add minified version for production
+  configs.push(minifiedConfig)
+  
+  // Add tree-shaking optimizations
+  configs.forEach(config => {
+    if (config.plugins) {
+      config.plugins.push(terser({
+        compress: {
+          drop_console: true,
+          drop_debugger: true,
+          pure_funcs: ['console.log', 'console.warn'],
+          dead_code: true,
+          keep_infinity: true
+        },
+        mangle: {
+          reserved: ['ForcePortraitMode', 'enablePortraitMode', 'disablePortraitMode']
+        },
+        format: {
+          comments: false
+        }
+      }))
+    }
+  })
+}
+
+// Always include TypeScript declarations (but only essential ones)
+configs.push(dtsConfig, reactDtsConfig, vueDtsConfig)
 
 export default configs

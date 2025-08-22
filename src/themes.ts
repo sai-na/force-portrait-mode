@@ -105,6 +105,13 @@ export function getAvailableThemes(): string[] {
 }
 
 /**
+ * Get theme configuration by name (for testing/direct access)
+ */
+export function getTheme(name: string): Partial<PortraitModeOptions> | undefined {
+  return themes[name]
+}
+
+/**
  * Validate theme configuration
  */
 export function validateTheme(theme: string | CustomTheme): boolean {

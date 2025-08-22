@@ -339,3 +339,61 @@ export {
 } from './utils'
 
 export { applyTheme, getAvailableThemes } from './themes'
+
+/**
+ * Class-based API for ForcePortraitMode (for backward compatibility)
+ */
+export class ForcePortraitMode {
+  private result: PortraitModeResult | null = null
+
+  constructor(options: PortraitModeOptions = {}) {
+    this.result = enablePortraitMode(options)
+  }
+
+  /**
+   * Enable portrait mode
+   */
+  enable(): void {
+    if (!this.result) {
+      this.result = enablePortraitMode()
+    }
+  }
+
+  /**
+   * Disable portrait mode
+   */
+  disable(): void {
+    if (this.result) {
+      this.result.cleanup()
+      this.result = null
+    }
+  }
+
+  /**
+   * Update options
+   */
+  updateOptions(options: Partial<PortraitModeOptions>): void {
+    updatePortraitMode(options)
+  }
+
+  /**
+   * Destroy instance
+   */
+  destroy(): void {
+    this.disable()
+  }
+
+  /**
+   * Check if enabled
+   */
+  isEnabled(): boolean {
+    return this.result !== null
+  }
+}
+
+/**
+ * Utility function to check if device is in portrait mode
+ */
+export function isPortraitMode(): boolean {
+  return window.innerHeight > window.innerWidth
+}
