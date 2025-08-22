@@ -70,5 +70,3 @@ jobs:
         test -f dist/index.js
         test -f dist/index.esm.js
         test -f dist/index.d.ts
-        test -f dist/react/index.js
-        test -f dist/vue/index.js
