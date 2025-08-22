@@ -1,6 +1,6 @@
 {
   "name": "force-portrait-mode",
-  "version": "1.2.1",
+  "version": "1.0.0",
   "type": "module",
   "description": "Lightweight library to enforce portrait orientation on mobile devices with customizable animations and messages",
   "keywords": [
@@ -38,7 +38,7 @@
   },
   "files": [
     "dist/index.js",
-    "dist/index.esm.js", 
+    "dist/index.esm.js",
     "dist/index.d.ts",
     "styles/force-portrait.min.css",
     "README.md"
