@@ -12,7 +12,7 @@
 
 - 🎨 **Fully Customizable** - Colors, icons, messages, animations, and positioning
 - 📱 **Mobile-First** - Optimized for all mobile browsers and devices
-- ⚡ **Lightweight** - < 3KB gzipped, zero dependencies  
+- ⚡ **Ultra-Lightweight** - < 2KB gzipped, zero dependencies  
 - 🔧 **Framework Agnostic** - Works with React, Vue, Angular, vanilla JS
 - 🎯 **TypeScript Ready** - Full type definitions included
 - ♿ **Accessible** - Respects user motion preferences and ARIA standards
@@ -56,7 +56,7 @@ enablePortraitMode({
 <link rel="stylesheet" href="node_modules/force-portrait-mode/styles/force-portrait.css">
 
 <!-- Or use a CDN -->
-<link rel="stylesheet" href="https://unpkg.com/force-portrait-mode@1.0.0/styles/force-portrait.css">
+<link rel="stylesheet" href="https://unpkg.com/force-portrait-mode@1.1.0/styles/force-portrait.css">
 ```
 
 ## 📖 Usage Examples
@@ -368,8 +368,9 @@ The library uses optimized default positioning for mobile devices:
 
 ## ⚡ Performance
 
-- **Lightweight**: < 3KB gzipped
+- **Ultra-Lightweight**: < 2KB gzipped (11KB minified core)
 - **Zero dependencies**: No external libraries required
+- **Optimized build**: Tree-shaken with aggressive compression
 - **CSS-only option**: Pure CSS solution available
 - **GPU accelerated**: Smooth animations using transform
 - **Memory efficient**: Automatic cleanup and resource management

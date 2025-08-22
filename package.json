@@ -46,10 +46,14 @@
     "./styles/*": "./styles/*"
   },
   "files": [
-    "dist",
-    "styles",
-    "README.md",
-    "LICENSE"
+    "dist/*.js",
+    "dist/*.d.ts",
+    "dist/react/*.js", 
+    "dist/react/*.d.ts",
+    "dist/vue/*.js",
+    "dist/vue/*.d.ts",
+    "styles/*.css",
+    "README.md"
   ],
   "scripts": {
     "build": "rollup -c",

@@ -5,7 +5,7 @@ import terser from '@rollup/plugin-terser'
 import dts from 'rollup-plugin-dts'
 
 const isProduction = process.env.NODE_ENV === 'production'
-const generateSourceMaps = !isProduction
+const generateSourceMaps = false
 
 // Base configuration
 const baseConfig = {
@@ -13,15 +13,17 @@ const baseConfig = {
   plugins: [
     resolve({
       browser: true,
-      preferBuiltins: false
+      preferBuiltins: false,
+      exportConditions: ['import', 'module', 'default']
     }),
-    commonjs(),
+    commonjs({
+      include: /node_modules/
+    }),
     typescript({
       tsconfig: './tsconfig.json',
-      declaration: true,
-      declarationDir: './dist',
-      rootDir: './src',
-      declarationMap: generateSourceMaps
+      declaration: false,
+      declarationMap: false,
+      exclude: ['**/*.test.ts', '**/*.spec.ts']
     })
   ]
 }
@@ -112,38 +114,27 @@ const vueConfig = {
   ...baseConfig
 }
 
-// TypeScript declaration files
+// Consolidated TypeScript declaration file
 const dtsConfig = {
-  input: 'dist/index.d.ts',
+  input: 'src/index.ts',
   output: {
     file: 'dist/index.d.ts',
     format: 'es'
   },
-  plugins: [dts()]
-}
-
-// React TypeScript declarations
-const reactDtsConfig = {
-  input: 'dist/react/index.d.ts',
-  output: {
-    file: 'dist/react/index.d.ts',
-    format: 'es'
-  },
-  plugins: [dts()]
-}
-
-// Vue TypeScript declarations
-const vueDtsConfig = {
-  input: 'dist/vue/index.d.ts',
-  output: {
-    file: 'dist/vue/index.d.ts',
-    format: 'es'
-  },
-  plugins: [dts()]
+  plugins: [dts()],
+  external: ['react', 'vue']
 }
 
 // Export configurations based on environment  
-const configs = [mainConfig, reactConfig, vueConfig]
+const configs = [mainConfig]
+
+// Only include framework integrations if they're actually used
+if (process.env.BUILD_REACT !== 'false') {
+  configs.push(reactConfig)
+}
+if (process.env.BUILD_VUE !== 'false') {
+  configs.push(vueConfig)
+}
 
 if (isProduction) {
   // Add minified version for production
@@ -156,22 +147,27 @@ if (isProduction) {
         compress: {
           drop_console: true,
           drop_debugger: true,
-          pure_funcs: ['console.log', 'console.warn'],
+          pure_funcs: ['console.log', 'console.warn', 'console.info'],
           dead_code: true,
-          keep_infinity: true
+          unused: true,
+          side_effects: false,
+          keep_infinity: true,
+          passes: 2
         },
         mangle: {
-          reserved: ['ForcePortraitMode', 'enablePortraitMode', 'disablePortraitMode']
+          reserved: ['ForcePortraitMode', 'enablePortraitMode', 'disablePortraitMode'],
+          toplevel: true
         },
         format: {
-          comments: false
+          comments: false,
+          ecma: 2020
         }
       }))
     }
   })
 }
 
-// Always include TypeScript declarations (but only essential ones)
-configs.push(dtsConfig, reactDtsConfig, vueDtsConfig)
+// Include consolidated TypeScript declarations
+configs.push(dtsConfig)
 
 export default configs
