@@ -12,7 +12,7 @@
 
 - 🎨 **Fully Customizable** - Colors, icons, messages, animations, and positioning
 - 📱 **Mobile-First** - Optimized for all mobile browsers and devices
-- ⚡ **Ultra-Lightweight** - < 2KB gzipped, zero dependencies  
+- ⚡ **Ultra-Lightweight** - < 1KB gzipped, zero dependencies  
 - 🔧 **Framework Agnostic** - Works with React, Vue, Angular, vanilla JS
 - 🎯 **TypeScript Ready** - Full type definitions included
 - ♿ **Accessible** - Respects user motion preferences and ARIA standards
@@ -53,10 +53,10 @@ enablePortraitMode({
 
 ```html
 <!-- Include the CSS file -->
-<link rel="stylesheet" href="node_modules/force-portrait-mode/styles/force-portrait.css">
+<link rel="stylesheet" href="node_modules/force-portrait-mode/styles/force-portrait.min.css">
 
 <!-- Or use a CDN -->
-<link rel="stylesheet" href="https://unpkg.com/force-portrait-mode@1.1.0/styles/force-portrait.css">
+<link rel="stylesheet" href="https://unpkg.com/force-portrait-mode@1.2.0/styles/force-portrait.min.css">
 ```
 
 ## 📖 Usage Examples
@@ -81,15 +81,20 @@ const cleanup = enablePortraitMode({
 ### React Integration
 
 ```jsx
-import { usePortraitMode } from 'force-portrait-mode/react'
+import { enablePortraitMode } from 'force-portrait-mode'
+import { useEffect } from 'react'
 
 function App() {
-  const { isActive } = usePortraitMode({
-    backgroundColor: '#2d3748',
-    textColor: '#e2e8f0',
-    icon: '📲',
-    theme: 'dark'
-  })
+  useEffect(() => {
+    const cleanup = enablePortraitMode({
+      backgroundColor: '#2d3748',
+      textColor: '#e2e8f0',
+      icon: '📲',
+      theme: 'dark'
+    })
+    
+    return cleanup
+  }, [])
   
   return (
     <div className="app">
@@ -104,16 +109,25 @@ function App() {
 
 ```vue
 <script setup>
-import { usePortraitMode } from 'force-portrait-mode/vue'
+import { enablePortraitMode } from 'force-portrait-mode'
+import { onMounted, onUnmounted } from 'vue'
 
-const { isActive } = usePortraitMode({
-  backgroundColor: '#1a1a1a',
-  icon: '🎮',
-  message: 'Game works best in portrait mode',
-  animation: {
-    type: 'bounce',
-    duration: '1.5s'
-  }
+let cleanup = null
+
+onMounted(() => {
+  cleanup = enablePortraitMode({
+    backgroundColor: '#1a1a1a',
+    icon: '🎮',
+    message: 'Game works best in portrait mode',
+    animation: {
+      type: 'bounce',
+      duration: '1.5s'
+    }
+  })
+})
+
+onUnmounted(() => {
+  if (cleanup) cleanup()
 })
 </script>
 
@@ -322,41 +336,13 @@ Include the CSS file and optionally customize with CSS custom properties:
 
 ## 📱 Framework Integration
 
-### React Hook
+### Installation
 
 ```bash
 npm install force-portrait-mode
 ```
 
-```jsx
-import { usePortraitMode } from 'force-portrait-mode/react'
-
-function MyComponent() {
-  const { isActive, updateOptions } = usePortraitMode({
-    theme: 'dark',
-    icon: '📱'
-  })
-  
-  return <div>My App</div>
-}
-```
-
-### Vue 3 Composable
-
-```bash
-npm install force-portrait-mode
-```
-
-```vue
-<script setup>
-import { usePortraitMode } from 'force-portrait-mode/vue'
-
-const { isActive } = usePortraitMode({
-  backgroundColor: '#1a1a1a',
-  theme: 'neon'
-})
-</script>
-```
+The library provides a framework-agnostic core that works with any JavaScript framework. Simply import the core functions and integrate them into your framework's lifecycle methods as shown in the examples above.
 
 ## 🎯 Default Positioning
 
@@ -368,7 +354,7 @@ The library uses optimized default positioning for mobile devices:
 
 ## ⚡ Performance
 
-- **Ultra-Lightweight**: < 2KB gzipped (11KB minified core)
+- **Ultra-Lightweight**: < 1KB gzipped (21KB core)
 - **Zero dependencies**: No external libraries required
 - **Optimized build**: Tree-shaken with aggressive compression
 - **CSS-only option**: Pure CSS solution available

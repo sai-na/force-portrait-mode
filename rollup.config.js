@@ -91,6 +91,7 @@ const reactConfig = {
       sourcemap: generateSourceMaps
     }
   ],
+  external: ['react', 'vue'],
   ...baseConfig
 }
 
@@ -111,6 +112,7 @@ const vueConfig = {
       sourcemap: generateSourceMaps
     }
   ],
+  external: ['react', 'vue'],
   ...baseConfig
 }
 
@@ -128,13 +130,8 @@ const dtsConfig = {
 // Export configurations based on environment  
 const configs = [mainConfig]
 
-// Only include framework integrations if they're actually used
-if (process.env.BUILD_REACT !== 'false') {
-  configs.push(reactConfig)
-}
-if (process.env.BUILD_VUE !== 'false') {
-  configs.push(vueConfig)
-}
+// Framework integrations can be built separately if needed
+// Users can import the core library and build their own integrations
 
 if (isProduction) {
   // Add minified version for production
