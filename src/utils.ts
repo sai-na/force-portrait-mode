@@ -231,7 +231,7 @@ export function generateAnimationKeyframes(
   rotationAngle?: number
 ): string {
   switch (animationType) {
-    case 'rotate':
+    case 'rotate': {
       const angle = rotationAngle || 15
       return `
         @keyframes force-portrait-rotate {
@@ -240,6 +240,7 @@ export function generateAnimationKeyframes(
           75% { transform: translate(-50%, -50%) rotate(${angle}deg); }
         }
       `
+    }
     
     case 'bounce':
       return `
