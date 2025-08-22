@@ -1,6 +1,6 @@
 {
   "name": "force-portrait-mode",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "type": "module",
   "description": "Lightweight library to enforce portrait orientation on mobile devices with customizable animations and messages",
   "keywords": [
